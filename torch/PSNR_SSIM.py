@@ -71,3 +71,16 @@ def ssim(img1, img2, window_size = 11, size_average = True):
     window = window.type_as(img1)
     
     return _ssim(img1, img2, window, window_size, channel, size_average)
+
+def PSNR(img1, img2):
+    b,_,_,_=img1.shape
+    # mse=0
+    # for i in range(b):
+    img1=np.clip(img1,0,255)
+    img2=np.clip(img2,0,255)
+    mse = np.mean((img1/ 255. - img2/ 255.) ** 2)  # +mse
+    if mse == 0:
+        return 100
+    # mse=mse/b
+    PIXEL_MAX = 1
+    return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))        
